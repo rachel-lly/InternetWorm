@@ -39,6 +39,7 @@ class GoodsAdapter extends RecyclerView.Adapter<GoodsAdapter.ViewHolder> {
         holder.author.setText(article.getAuthor());
         Glide.with(context).load(article.getImgUrl()).into(holder.img);
         holder.title.setText(article.getTitle());
+        holder.context.setText(article.getContext());
     }
 
     @Override
@@ -50,12 +51,14 @@ class GoodsAdapter extends RecyclerView.Adapter<GoodsAdapter.ViewHolder> {
         private TextView author;
         private TextView title;
         private ImageView img;
+        private TextView context;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             author = itemView.findViewById(R.id.author);
             title = itemView.findViewById(R.id.title);
             img = itemView.findViewById(R.id.img);
+            context = itemView.findViewById(R.id.context);
         }
     }
 }
