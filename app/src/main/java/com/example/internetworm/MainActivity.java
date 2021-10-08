@@ -8,6 +8,7 @@ import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.webkit.JavascriptInterface;
 import android.webkit.WebResourceError;
 import android.webkit.WebResourceRequest;
@@ -16,6 +17,9 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.GridLayoutManager;
+
+import com.example.internetworm.databinding.ActivityMainBinding;
 
 import java.util.ArrayList;
 
@@ -27,10 +31,18 @@ public class MainActivity extends AppCompatActivity {
     final static String url = "https://www.smzdm.com/";
     final static String TAG = "MainActivity";
 
+    private ArrayList<Article> articles = new ArrayList<>();
+    private ActivityMainBinding binding;
+    private GoodsAdapter goodsAdapter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        binding = ActivityMainBinding.inflate(LayoutInflater.from(this));
+
+        setContentView(binding.getRoot());
+
+
         Test();
     }
 
@@ -41,7 +53,10 @@ public class MainActivity extends AppCompatActivity {
             switch (msg.what) {
                 case 1:
                     Log.i(TAG, "handleMessage: "+ "开始展示数据");
-                    ArrayList<Article> articles = (ArrayList<Article>)msg.obj;
+                    articles = (ArrayList<Article>)msg.obj;
+                    goodsAdapter = new GoodsAdapter(articles,getApplicationContext());
+                    binding.recycleView.setAdapter(goodsAdapter);
+                    binding.recycleView.setLayoutManager(new GridLayoutManager(getApplicationContext(),2));
                     Log.i(TAG, "handleMessage:articles.size() "+ articles.size());
 
                     for (Article item:articles) {
